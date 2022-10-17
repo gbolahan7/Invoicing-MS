@@ -51,7 +51,7 @@ const InvoiceDetails= () =>{
 
                     <div className="invoice__customer-add">
                         <p>Bill to:</p>
-                        <h4>Abiola Kazeem</h4>
+                        <h4>Abass Durodola</h4>
                         <div>
                             <p>121, Enfield Street</p>
                             <p>Middlesbrough</p>
@@ -62,21 +62,34 @@ const InvoiceDetails= () =>{
 
                     <div>
                         <p> Send to:</p>
-                        <h4>abkaz@gmail.com</h4>
+                        <h4>abass@gmail.com</h4>
                     </div>
                 </div>
-            </div>
-            <div className="invoice__item-box">
+                 <div className="invoice__item-box">
                 <ul className="list">
                     <li className="list__item">
                         <p className="item__name-box">Item Name</p>
-                        <p className="list_item-box">Qty</p>
-                        <p className="list_item-box">Price</p>
-                        <p className="list_item-box">Total</p>
+                        <p className="list__item-box">Quantity</p>
+                        <p className="list__item-box">Price</p>
+                        <p className="list__item-box">Total</p>
+                    </li>
+                    <li className="list__item">
+                        <div className="item__name-box">
+                            <h5>iPhone 14 Pro</h5>
+                        </div>
+                        <div className="list__item-box"><p> 3</p></div>
+                        <div className="list__item-box"><p> £500</p></div>
+                        <div className="list__item-box"><h5> £1500</h5></div>
                     </li>
                 </ul>
             </div>
-        </div>
+
+            <div className="total__cost">
+                <h5>Total Cost</h5>
+                <h2>£1500</h2>
+            </div>
+        </div>       
+    </div>
     )
 }
 
