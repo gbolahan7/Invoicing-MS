@@ -6,7 +6,7 @@ export default function Home() {
 
   const router = useRouter();
 
-  const navigatePage=()=> router.push('/add-new')
+  const navigatePage=()=> router.push('/create-invoic')
   return (
     <>
     <div className="main__container">
