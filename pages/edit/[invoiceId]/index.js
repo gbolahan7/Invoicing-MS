@@ -1,24 +1,13 @@
+
 import React, {useState, useRef} from 'react'
 import { useRouter } from 'next/router';
 
-const CreateInvoice = () => {
+const EditInvoice = () => {
 
     const router = useRouter();
     const [items, setItems] = useState([]);
 
-    const senderStreet = useRef('');
-    const senderCity = useRef('');
-    const senderPostalCode = useRef('');
-    const senderCountry = useRef('');
-    const customerName = useRef('');
-    const customerEmail = useRef('');
-    const customerStreet = useRef('');
-    const customerCity = useRef('');
-    const customerPostalCode = useRef('');
-    const customerCountry = useRef('');
-    const description = useRef('');
-    const createdAt = useRef('');
-    const paymentTerms = useRef('');
+    
 
     // add product
 
@@ -42,75 +31,33 @@ const CreateInvoice = () => {
         inputData.splice(i, 1)
         setItems(inputData)
     }
-
-    //total cost for invoice items created
-    const totalCost = items.reduce((acc, curr) => acc + curr.total, 0);
-
-    //posting to db
-    const createNewInvoice = async status=> {
-        try {
-            const res = await fetch('/api/create-invoice', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    senderStreet:senderStreet.current.value,
-                    senderCity:senderCity.current.value,
-                    senderPostalCode:senderPostalCode.current.value,
-                    senderCountry:senderCountry.current.value,
-                    customerName: customerName.current.value,
-                    customerEmail: customerEmail.current.value,
-                    customerStreet: customerStreet.current.value,
-                    customerCity: customerCity.current.value,
-                    customerPostalCode: customerPostalCode.current.value,
-                    customerCountry: customerCountry.current.value,
-                    description: description.current.value,
-                    createdAt: createdAt.current.value,
-                    paymentDue: createdAt.current.value,
-                    paymentTerms: paymentTerms.current.value,
-                    status: status,
-                    items: items,
-                    total: totalCost,
-                }),
-            });
-            const data = await res.json();
-            console.log(data)
-            router.push('/')
-            alert(data.message);
-        } catch (error) {
-            console.log('There is an error !')
-            
-        }
-    }
-
   return (
     <div className="main__container">
         <div className="new__invoice">
             <div className="new__invoice-header">
-                <h3>New Invoice</h3>
+                <h3>Edit INV-2324</h3>
             </div>
             <div className="new__invoice-body">
                 <div className="invoice__from">
                     <p className="invoice__heading"> Invoice From</p>
                     <div className="form__group">
                         <p>Street Address</p>
-                        <input type="text" ref={senderStreet}></input>
+                        <input type="text"></input>
                     </div>
                     <div className="form__group inline__form-group">
                         <div>
                             <p>City</p>
-                            <input type="text" ref={senderCity}/>
+                            <input type="text"/>
                         </div>
 
                         <div>
                             <p>Postal Code</p>
-                            <input type="text" ref={senderPostalCode}/>
+                            <input type="text"/>
                         </div>
 
                         <div>
                             <p>Country</p>
-                            <input type="text" ref={senderCountry}/>
+                            <input type="text"/>
                         </div>
                     </div>
                 </div>
@@ -119,49 +66,49 @@ const CreateInvoice = () => {
                     <p className="invoice__heading"> Invoice to</p>
                     <div className="form__group">
                         <p>Customer Name</p>
-                        <input type="text" ref={customerName}></input>
+                        <input type="text"></input>
                     </div>
                     <div className="form__group">
                         <p>Customer Email</p>
-                        <input type="email" ref={customerEmail}></input>
+                        <input type="email"></input>
                     </div>
 
                     <div className="form__group">
                         <p>Street Address</p>
-                        <input type="text" ref={customerStreet}></input>
+                        <input type="text"></input>
                     </div>
                     <div className="form__group inline__form-group">
                         <div>
                             <p>City</p>
-                            <input type="text"  ref={customerCity}/>
+                            <input type="text"/>
                         </div>
 
                         <div>
                             <p>Postal Code</p>
-                            <input type="text"  ref={customerPostalCode}/>
+                            <input type="text"/>
                         </div>
 
                         <div>
                             <p>Country</p>
-                            <input type="text"  ref={customerCountry}/>
+                            <input type="text"/>
                         </div>
                     </div>
 
                     <div className="form__group inline__form-group">
                         <div className="inline__group">
                             <p>Invoice Date</p>
-                            <input type="date"  ref={createdAt}/>
+                            <input type="date"/>
                         </div>
 
                         <div className="inline__group">
                             <p>Payment Terms</p>
-                            <input type="text"  ref={paymentTerms}/>
+                            <input type="text"/>
                         </div>
                     </div>
 
                     <div className="form__group">
                         <p>Descriptiom</p>
-                        <input type="text"  ref={description}></input>
+                        <input type="text"></input>
                     </div>
                 </div>
 
@@ -201,11 +148,11 @@ const CreateInvoice = () => {
                     }                 
             </div>
                 <button className="add__item-btn" onClick={addItem}>Add New Item</button>
-                <div className="new__invoice-btn">
-                    <button className="edit__btn" onClick={ () => router.push('/')}>Discard</button>
+                <div className="new__invoice-btn" style={{justifyContent:'end'}}>
+                   
                     <div>
-                        <button className="draft__btn" onClick={()=>createNewInvoice('draft')}>Save as draft</button>
-                        <button className="mark__as-btn" onClick={()=>createNewInvoice('pending')}>Send & Save</button>
+                        <button className="draft__btn" onClick={`/invoices/id`}>Cancel</button>
+                        <button className="mark__as-btn">Save Changes</button>
                     </div>
                     
                 </div>
@@ -215,4 +162,4 @@ const CreateInvoice = () => {
   );
 };
 
-export default CreateInvoice
+export default EditInvoice
