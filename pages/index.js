@@ -13,7 +13,7 @@ export default function Home() {
       <div className="invoice__header">
         <div className="invoice__header-logo">
           <h3>Invoices</h3>
-          <p>There are no invoices</p>
+          <p>There are 1 invoice(s)</p>
         </div>
 
         <button className="btn" onClick={navigatePage}>Add New</button>
@@ -32,13 +32,17 @@ export default function Home() {
               <p className="invoice__created">13/10/2022</p>
             </div>
             <div>
-              <p className="invoice__total">£550</p>
+              <p className="invoice__total">£1500</p>
             </div>
 
             <div>
               <button className="pending__status">Pending</button>
             </div>
           </div>
+
+          
+
+          
         </Link>
       </div>
     </div></>
