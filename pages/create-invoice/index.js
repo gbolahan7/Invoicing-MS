@@ -1,5 +1,7 @@
 import React, {useState, useRef} from 'react'
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+
 
 const CreateInvoice = () => {
 
@@ -75,11 +77,11 @@ const CreateInvoice = () => {
                 }),
             });
             const data = await res.json();
-            console.log(data)
+            
             router.push('/')
-            alert(data.message);
+            toast.success(data.message);
         } catch (error) {
-            console.log('There is an error !')
+            toast.error('There is an error!')
             
         }
     }
