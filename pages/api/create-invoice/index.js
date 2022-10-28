@@ -3,7 +3,7 @@ import {MongoClient} from 'mongodb';
 //database connection
 async function handler(req, res){
 
-    const client = await MongoClient.connect('mongodb+srv://abass037:8vBghtQnSuaAQS1T@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
+    const client = await MongoClient.connect('mongodb+srv://abass037:91nGVauCFFA3WNe7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
      {useNewUrlParser:true});
 
      if (req.method === "POST") {
