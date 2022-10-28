@@ -40,7 +40,8 @@ export default function Home(props) {
             </div>
 
             <div>
-              <button className="pending__status">{invoice.status}</button>
+              <button className={`${invoice.status === 'paid'? 'paid__status'
+              :invoice.status ==='pending' ? 'pending__status': 'draft__status'}`}>{invoice.status}</button>
             </div>
           </div>
           
