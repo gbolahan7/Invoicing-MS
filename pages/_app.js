@@ -10,6 +10,7 @@ function MyApp({ Component, pageProps }) {
       autoClose={4000}
       closeOnClick
       theme="light"
+      pauseOnHover={false}
    />
    <Component {...pageProps} />
    </Layout>
