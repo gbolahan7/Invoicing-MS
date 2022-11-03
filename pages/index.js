@@ -70,10 +70,11 @@ export async function getStaticProps(){
           customerName: invoice.customerName,
           createdAt: invoice.createdAt,
           total: invoice.total,
-          status: invoice.status
+          status: invoice.status,
 
-        }
-      })
-    }
-  }
+        };
+      }),
+    },
+    revalidate: 2,
+  };
 }
