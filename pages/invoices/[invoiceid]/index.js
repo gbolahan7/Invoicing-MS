@@ -8,6 +8,14 @@ const InvoiceDetails= (props) =>{
     const router = useRouter();
     const {data} = props;
     const goBack = () => router.push('/');
+
+
+    const updateStatus = async invoiceId=>{
+        const res = await fetch(`/api/invoices/${invoiceId}`, {
+            method: 'PUT'
+        })
+        const data = await res.json();
+    }
     return(
         <div className="main__container">
             <div className="back__btn">
@@ -16,13 +24,16 @@ const InvoiceDetails= (props) =>{
             <div className="invoice__details-header">
              <div className="details__status">
                 <p>status</p>
-                <button className={`${data.status === 'paid'? 'paid__status'
-              :data.status ==='pending' ? 'pending__status': 'draft__status'}`}>{data.status}</button>
+                <button className={`${data.status === "paid"? "paid__status"
+              :data.status ==="pending" ? "pending__status": "draft__status"}`}>{data.status}</button>
              </div>
              <div className="details__btns">
                 <button className="edit__btn" onClick={()=> router.push(`/edit/${data.id}`)}>Edit</button>
                 <button className="delete__btn">Delete</button>
-                <button className={`${data.status==='paid' || data.status==='draft' ? "disable" : ""} mark__as-btn`}>Mark as Paid</button>
+                <button onClick={()=>updateStatus(data.id)}
+                className={`${
+                    data.status==="paid" || data.status==="draft" ?
+                     "disable" : "" } mark__as-btn`}>Mark as Paid</button>
 
              </div>
             </div>
