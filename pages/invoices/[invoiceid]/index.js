@@ -16,12 +16,13 @@ const InvoiceDetails= (props) =>{
             <div className="invoice__details-header">
              <div className="details__status">
                 <p>status</p>
-                <button className="pending__status">{data.status}</button>
+                <button className={`${data.status === 'paid'? 'paid__status'
+              :data.status ==='pending' ? 'pending__status': 'draft__status'}`}>{data.status}</button>
              </div>
              <div className="details__btns">
                 <button className="edit__btn" onClick={()=> router.push(`/edit/${data.id}`)}>Edit</button>
                 <button className="delete__btn">Delete</button>
-                <button className="mark__as-btn">Mark as Paid</button>
+                <button className={`${data.status==='paid' || data.status==='draft' ? "disable" : ""} mark__as-btn`}>Mark as Paid</button>
 
              </div>
             </div>
