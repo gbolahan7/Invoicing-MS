@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {useRouter} from "next/router";
 import {MongoClient, ObjectId} from "mongodb";
+import { toast } from 'react-toastify';
 
 
 const InvoiceDetails= (props) =>{
 
     const router = useRouter();
     const {data} = props;
+    const modalRef = useRef(null);
+
     const goBack = () => router.push('/');
 
 
@@ -15,7 +18,24 @@ const InvoiceDetails= (props) =>{
             method: 'PUT'
         })
         const data = await res.json();
+    };
+
+    const deleteInvoice = async invoiceId=>{
+        try {
+            const res = await fetch(`/api/invoices/${invoiceId}`, {
+                method: 'DELETE'
+            })
+
+            const data = await res.json()
+            toast.success(data.message);
+            router.push('/')
+        } catch (error) {
+            toast.error('There is an error!');
+        }
     }
+
+    const modalToggle =()=> modalRef.current.classList.toggle('showModal');
+
     return(
         <div className="main__container">
             <div className="back__btn">
@@ -29,7 +49,21 @@ const InvoiceDetails= (props) =>{
              </div>
              <div className="details__btns">
                 <button className="edit__btn" onClick={()=> router.push(`/edit/${data.id}`)}>Edit</button>
-                <button className="delete__btn">Delete</button>
+
+                <div className="delete__modal" ref={modalRef}>
+                    <div className="modal">
+                        <h2>Confirm Deletion</h2>
+                        <p>Are you sure you want to delete invoice #{data.id.substr(0,6).
+                        toUpperCase()}? This action cannot be reverted</p>
+                        <div className="details__btns modal__btns">
+                            <button className="edit__btn" onClick={modalToggle}>Cancel</button>
+                            <button className="delete__btn" onClick={()=>deleteInvoice(data.id)}>Confirm</button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <button className="delete__btn" onClick={modalToggle}>Delete</button>
                 <button onClick={()=>updateStatus(data.id)}
                 className={`${
                     data.status==="paid" || data.status==="draft" ?
