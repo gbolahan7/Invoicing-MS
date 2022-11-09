@@ -17,6 +17,15 @@ async function handler(req, res) {
                 },
             }
            );
+           client.close()
+        }
+
+        if(req.method ==="DELETE") {
+            await collection.deleteOne({_id: ObjectId(invoiceId)});
+
+            res.status(200).json({message: "Invoice deleted successfully"});
+            client.close();
+
         }
 }
 

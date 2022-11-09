@@ -362,7 +362,7 @@ p {
 }
 
 /* ============== modal style ============ */
-/* .delete__modal {
+.delete__modal {
   background: rgba(9, 10, 17, 0.76);
   position: fixed;
   top: 0;
@@ -405,4 +405,4 @@ p {
 
 .showModal {
   display: block;
-} */
+}
