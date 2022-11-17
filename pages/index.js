@@ -56,7 +56,7 @@ export default function Home(props) {
 
 export async function getStaticProps(){
   const client =  await MongoClient.connect(
-                   'mongodb+srv://abass037:91nGVauCFFA3WNe7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
+                   'mongodb+srv://abass02:TNZnU2PwM2bxIvS7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
                   {useNewUrlParser:true});
   const db = client.db()
   const collection = db.collection('allInvoices')
