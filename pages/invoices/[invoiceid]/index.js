@@ -13,10 +13,10 @@ const InvoiceDetails= (props) =>{
     const goBack = () => router.push('/');
 
 
-    const updateStatus = async invoiceId=>{
+    const updateStatus = async(invoiceId)=>{
         const res = await fetch(`/api/invoices/${invoiceId}`, {
-            method: 'PUT'
-        })
+            method: 'PUT',
+        });
         const data = await res.json();
     };
 
@@ -48,7 +48,7 @@ const InvoiceDetails= (props) =>{
               :data.status ==="pending" ? "pending__status": "draft__status"}`}>{data.status}</button>
              </div>
              <div className="details__btns">
-                <button className="edit__btn" onClick={()=> router.push(`/edit/${data.id}`)}>Edit</button>
+                <button className="edit__btn" onClick={()=> router.push(`/edit-invoice/${data.id}`)}>Edit</button>
 
                 <div className="delete__modal" ref={modalRef}>
                     <div className="modal">
@@ -150,7 +150,7 @@ export default InvoiceDetails;
 
 export async function getStaticPaths() {
     const client =  await MongoClient.connect(
-        'mongodb+srv://abass037:91nGVauCFFA3WNe7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
+        'mongodb+srv://abass02:TNZnU2PwM2bxIvS7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
         {useNewUrlParser:true});
         const db = client.db();
         const collection = db.collection("allInvoices");
@@ -172,7 +172,7 @@ export async function getStaticProps(context){
     const {invoiceId} = context.params
 
     const client =  await MongoClient.connect(
-                    'mongodb+srv://abass037:91nGVauCFFA3WNe7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
+                    'mongodb+srv://abass02:TNZnU2PwM2bxIvS7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
                     {useNewUrlParser:true});
     const db = client.db()
     const collection = db.collection('allInvoices');

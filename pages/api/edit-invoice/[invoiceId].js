@@ -1,13 +1,23 @@
-import {MongoClient} from 'mongodb';
+import { MongoClient, ObjectId } from "mongodb";
 
-//database connection
-async function handler(req, res){
+async function handler(req, res) {
+  const { invoiceId } = req.query;
+  // console.log(invoiceId);
+  // console.log(req.body);
+  const client = await MongoClient.connect(
+      'mongodb+srv://abass02:TNZnU2PwM2bxIvS7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
+      { useNewUrlParser: true }
+  );
+  const db = client.db();
+  const collection = db.collection("allInvoices");
 
-    const client = await MongoClient.connect('mongodb+srv://abass02:TNZnU2PwM2bxIvS7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
-     {useNewUrlParser:true});
-
-     if (req.method === "POST") {
-        const invoice = {
+  if (req.method === "PUT") {
+    await collection.updateOne(
+      {
+        _id: ObjectId(invoiceId),
+      },
+      {
+        $set: {
           senderAddress: {
             street: req.body.senderStreet,
             city: req.body.senderCity,
@@ -29,16 +39,14 @@ async function handler(req, res){
           status: req.body.status,
           items: req.body.items,
           total: req.body.total,
-        }
+        },
+      }
+    );
 
-        const db = client.db();
-        const collection = db.collection('allInvoices');
-        await collection.insertOne(invoice)
+    res.status(200).json({ message: "Invoice updated successfully" });
+  }
 
-        res.status(200).json({message:'Invoice successfully added'});
-        client.close()
-    }
+  client.close();
 }
-
 
 export default handler;
