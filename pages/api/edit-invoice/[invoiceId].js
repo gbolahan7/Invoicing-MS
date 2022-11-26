@@ -2,8 +2,6 @@ import { MongoClient, ObjectId } from "mongodb";
 
 async function handler(req, res) {
   const { invoiceId } = req.query;
-  // console.log(invoiceId);
-  // console.log(req.body);
   const client = await MongoClient.connect(
       'mongodb+srv://abass02:TNZnU2PwM2bxIvS7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
       { useNewUrlParser: true }
