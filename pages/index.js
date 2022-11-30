@@ -1,80 +1,130 @@
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {MongoClient} from 'mongodb';
-
+import { toast } from "react-toastify";
+import { LogoutUser } from "../util/logout";
+// import { MongoClient } from "mongodb";
 
 export default function Home(props) {
+	const router = useRouter();
+	const [data, setData] = useState([]);
+	const [requestLoading, setRequestLoading] = useState(false);
 
-  const router = useRouter();
-  const {data} = props;
+	let token;
+	if (typeof window !== "undefined") {
+		token = localStorage.getItem("token");
+	} else {
+		console.log("server");
+	}
 
-  const navigatePage=()=> router.push('/create-invoice')
-  return (
-    <>
-    <div className="main__container">
-      <div className="invoice__header">
-        <div className="invoice__header-logo">
-          <h3>Invoices</h3>
-          <p>There are total {data.length} invoice(s)</p>
-        </div>
+	const getInvoices = async () => {
+		try {
+			setRequestLoading(true);
+			const res = await fetch("/api/get-invoice", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + token,
+				},
+			});
 
-        <button className="btn" onClick={navigatePage}>Add New</button>
-      </div>
-      <div className="invoice__container">
-        {
-          data?.map(invoice=>(
-            <Link href={`/invoices/${invoice.id}`} passRef key={invoice.id}>
-          <div className="invoice__item">
-            <div>
-              <h5 className="invoice__id">{invoice.id.substr(0,6).toUpperCase()}</h5>
-            </div>
+			const responseData = await res.json();
 
-            <div>
-              <h6 className="invoice__customer">{invoice.customerName}</h6>
-            </div>
-            <div>
-              <p className="invoice__created">{invoice.createdAt}</p>
-            </div>
-            <div>
-              <p className="invoice__total">{invoice.total}</p>
-            </div>
+			if (responseData.statusCode === 401) {
+				setRequestLoading(false);
+				toast.error(responseData.message);
+				return;
+			}
 
-            <div>
-              <button className={`${invoice.status === 'paid'? 'paid__status'
-              :invoice.status ==='pending' ? 'pending__status': 'draft__status'}`}>{invoice.status}</button>
-            </div>
-          </div>
-          
-        </Link>
-          ))
-        }
-      </div>
-    </div></>
-  );
-}
+			const mappedData = responseData.data.map((value) => ({
+				id: value._id.toString(),
+				customerName: value.customerName,
+				createdAt: value.createdAt,
+				total: value.total,
+				status: value.status,
+			}));
 
+			setData(mappedData);
+			setRequestLoading(false);
+		} catch (error) {
+			setRequestLoading(false);
+			toast.error(error.message);
+		}
+	};
 
-export async function getStaticProps(){
-  const client =  await MongoClient.connect(
-                   'mongodb+srv://abass02:TNZnU2PwM2bxIvS7@cluster0.8chddws.mongodb.net/invoices?retryWrites=true&w=majority',
-                  {useNewUrlParser:true});
-  const db = client.db()
-  const collection = db.collection('allInvoices')
-  const invoices = await collection.find({}).toArray()
+	useEffect(() => {
+		if (!token) router.push("/login");
+		getInvoices();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-  return {
-    props:{
-      data:invoices.map(invoice=>{
-        return{
-          id: invoice._id.toString(),
-          customerName: invoice.customerName,
-          createdAt: invoice.createdAt,
-          total: invoice.total,
-          status: invoice.status,
+	return (
+		<>
+			<div className="main__container">
+				<div className="invoice__header">
+					<div className="invoice__header-logo">
+						<h3>Invoices</h3>
+						<p>There are total {data.length} invoice(s)</p>
+					</div>
 
-        };
-      }),
-    },
-    revalidate: 2,
-  };
+					<p
+						onClick={() => {
+							LogoutUser();
+							router.push("/login");
+						}}
+					>
+						Logout
+					</p>
+
+					<Link href="/create-invoice">
+						<a className="btn">Add New</a>
+					</Link>
+				</div>
+				<div className="invoice__container">
+					{requestLoading && <p>LOADING....</p>}
+					{data.length > 0 ? (
+						data?.map((invoice) => (
+							<Link href={`/invoices/${invoice.id}`} passRef key={invoice.id}>
+								<div className="invoice__item">
+									<div>
+										<h5 className="invoice__id">
+											{invoice.id.substr(0, 6).toUpperCase()}
+										</h5>
+									</div>
+
+									<div>
+										<h6 className="invoice__customer">
+											{invoice.customerName}
+										</h6>
+									</div>
+									<div>
+										<p className="invoice__created">{invoice.createdAt}</p>
+									</div>
+									<div>
+										<p className="invoice__total">{invoice.total}</p>
+									</div>
+
+									<div>
+										<button
+											className={`${
+												invoice.status === "paid"
+													? "paid__status"
+													: invoice.status === "pending"
+													? "pending__status"
+													: "draft__status"
+											}`}
+										>
+											{invoice.status}
+										</button>
+									</div>
+								</div>
+							</Link>
+						))
+					) : (
+						<p>You have not created an invoice!</p>
+					)}
+				</div>
+			</div>
+		</>
+	);
 }
