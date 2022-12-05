@@ -63,12 +63,14 @@ const Login = () => {
 			setRequestLoading(false);
 
 			const expirationTime = new Date(
-				new Date().getTime() + +"300" * 1000
+				new Date().getTime() + +"1200" * 1000
 			).toISOString();
 
 			localStorage.setItem("expirationTime", expirationTime);
 
 			const remainingTime = calculateRemainingTime(expirationTime);
+
+			console.log(remainingTime);
 
 			setTimeout(() => {
 				LogoutUser();
