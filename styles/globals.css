@@ -61,6 +61,14 @@ a {
 	cursor: pointer;
 }
 
+.logout-btn {
+	cursor: pointer;
+	padding: 7px 25px;
+	background: var(--pending-status-color);
+	color: #fff;
+	border-radius: 5px;
+
+}
 .sidebar {
 	width: 120px;
 	height: 100vh;

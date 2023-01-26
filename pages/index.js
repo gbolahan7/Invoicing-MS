@@ -27,14 +27,10 @@ export default function Home() {
 						<p>There are total {data?.length} invoice(s)</p>
 					</div>
 
-					<p
-						onClick={() => {
+					<p className="logout-btn" onClick={() => {
 							LogoutUser();
 							router.push("/login");
-						}}
-					>
-						Logout
-					</p>
+						}}>Logout</p>
 
 					<Link href="/create-invoice">
 						<a className="btn">Add New</a>
